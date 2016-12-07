@@ -42,4 +42,9 @@ export class AppComponent {
     this.appState = state;
   }
 
+  filterCategory(category){
+    this._firebaseService.getBusinesses(category).subscribe(businesses => {
+      this.businesses = businesses;
+    });
+  }
 }
