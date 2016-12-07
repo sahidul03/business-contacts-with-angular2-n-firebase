@@ -13,6 +13,10 @@ import { FirebaseService } from './services/firebase.service';
 export class AppComponent {
   businesses:Business[];
   categories:Category[];
+  appState: string;
+  activeKey: string;
+
+
   constructor(private _firebaseService:FirebaseService) {
 
   }
@@ -27,6 +31,15 @@ export class AppComponent {
       console.log(categories);
       this.categories = categories;
     });
+  }
+
+  changeState(state, key){
+    console.log("change state to :"+ state);
+    if(key){
+      this.activeKey = key;
+      console.log("change key to :"+ key);
+    }
+    this.appState = state;
   }
 
 }
