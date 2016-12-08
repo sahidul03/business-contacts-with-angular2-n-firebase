@@ -16,6 +16,11 @@ export class AppComponent {
   appState: string;
   activeKey: string;
 
+  activeCompany: string;
+  activeCategory: string;
+  activePhone: string;
+  activeCity: string;
+  activeEmail: string;
 
   constructor(private _firebaseService:FirebaseService) {
 
@@ -46,5 +51,50 @@ export class AppComponent {
     this._firebaseService.getBusinesses(category).subscribe(businesses => {
       this.businesses = businesses;
     });
+  }
+
+  addBusiness(
+      company: string,
+      category: string,
+      phone: string,
+      city: string,
+      email: string){
+    var newBusiness = {
+      company: company,
+      category: category,
+      phone: phone,
+      city: city,
+      email: email
+    };
+    this._firebaseService.addBusiness(newBusiness);
+    this.changeState('default', false);
+
+  }
+
+  showEdit(business){
+    this.changeState('edit', business.$key);
+    this.activeCompany = business.company;
+    this.activeCategory = business.category;
+    this.activePhone = business.phone;
+    this.activeCity = business.city;
+    this.activeEmail = business.email;
+
+  }
+
+  updateBusiness(){
+    var updBusiness = {
+      company: this.activeCompany,
+      category: this.activeCategory,
+      email: this.activeEmail,
+      phone: this.activePhone,
+      city: this.activeCity
+    };
+    this._firebaseService.updateBusiness(this.activeKey, updBusiness);
+    this.changeState('default', false);
+  }
+
+  deleteBusiness(key){
+    this._firebaseService.deleteBusiness(key);
+    this.changeState('default', false)
   }
 }
